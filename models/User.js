@@ -1,5 +1,4 @@
 const {Schema, model, SchemaTypes } = require('mongoose');
-const uniqueValidator = require('mongoose-unique-validator');
 
 const userSchema = new Schema(
     {
@@ -30,11 +29,26 @@ const userSchema = new Schema(
                 unique: true,
             }
         ]
+    },
+    {
+        toJSON: {
+            virtuals:true,
+            getters: true
+        }
     }
 );
 
-userSchema.plugin(uniqueValidator)
-;
+
+// //virtual to get total friends
+// userSchema.virtual('friendCount').get(function() {
+//     return this.friends.length;
+// });
+
+// get total count of thoughts and reactions on retrieval
+userSchema.virtual('thoughtCount').get(function(){
+    return this.thoughts.reduce((total, t) => total + t.reactions.length +1, 0);
+});
+
 const User = model('User', userSchema);
 
 module.exports = User;
