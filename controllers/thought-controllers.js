@@ -58,7 +58,8 @@ const thoughtController = {
                 res.status(404).json({ message: 'No thought found with this Id '});
                 return;
             }
-            res.json(response)})
+            res.json({ message: 'User Deleted'})
+        })
         .catch(err => res.json(err))
     },
 
