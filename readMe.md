@@ -8,7 +8,7 @@
 A web application that allows users to log thoughts, read others' thoughts and react to thoughts, as well as compile a group of friends. Currently only the back end is up and running using MonboDB as a databse.
 
     
-![](/images/get.png)
+![](/images/insomnia.png)
   
 
 
@@ -27,7 +27,7 @@ start the server with
     
 ## Usage
 Currently can only retrieve and input data with a REST API client. Insomnia was used in the testing and development of the databse. To create a user, user the api/users POST request with a JSON body that includes "username" and "email" . To update, get one, or delete use the api/users/:userId endpoint with the PUT, GET, and DELETE methods respectively. To add a thought to the database, use the api/thoughts/:userId endpoint with a "thought" JSON body. To update, delete or get one thought, use the api/thoughts/:thoughtId endpoint with the PUT, DELETE and GET methods respectively. To add a friend or remove a friend, use the api/users/:userId/friends/:friendId (the friendId will be anohter user currently in the database) POST and DELETE requestS. To add a reaction to the database, use the api/thoughts/reactions/:thoughtId POST request with a "reactionText" body. To remove a reaction use api/thoughts/reactions/:thoughtId/:reactionId. 
-[Example Walk Through Video]()
+[Example Walk Through Video](https://drive.google.com/file/d/11XHqOM6jKgtpve_WVjEOcywAmse-1JK1/view?usp=sharing)
 
   
 ## Built With
