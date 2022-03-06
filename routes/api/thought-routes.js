@@ -28,12 +28,12 @@ router
     .delete(deleteThought)
     .put(updateThought)
 
-// post reply api/thoughts/:id/reactions/
+// post reply api/thoughts/reactions/:thoughtid
 router 
     .route('/reactions/:id')
     .post(addReaction)
 
-// delete reply api/thoughts/:id/reactions/:reactionId
+// delete reply api/thoughts/reactions/:thoughtid/:reactionId
 
 router  
     .route('/reactions/:id/:reactionId')

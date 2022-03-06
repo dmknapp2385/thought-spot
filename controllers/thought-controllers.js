@@ -1,4 +1,3 @@
-const { response } = require('express');
 const { Thought, User } = require('../models');
 
 const thoughtController = {
@@ -14,21 +13,12 @@ const thoughtController = {
     createThought({ params, body }, res) {
         Thought.create(body)
         .then(({ _id }) => {
-            console.log(params)
             return User.findOneAndUpdate(
                 { _id: params.userId },
                 { $push: { thoughts: _id } },
                 { new: true, runValidators: true}           
             );
-        })
-        .then(dbUserData => {
-            if (!dbUserData) {
-                res.status(404).json ({ message: "No User found with this id!"});
-                return;
-            }
-            res.json(dbUserData)
-        })
-        .catch(err => res.json(err))
+        }).then(data => res.json(data))
     },
       // get one thought by id
       getOneThought({ params }, res) {
@@ -58,7 +48,7 @@ const thoughtController = {
                 res.status(404).json({ message: 'No thought found with this Id '});
                 return;
             }
-            res.json({ message: 'User Deleted'})
+            res.json({ message: 'Thought Deleted'})
         })
         .catch(err => res.json(err))
     },

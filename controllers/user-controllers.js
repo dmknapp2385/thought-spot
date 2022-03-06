@@ -1,4 +1,5 @@
 const { response } = require('express');
+const { param } = require('express/lib/request');
 const { User, Thoughts } = require('../models');
 const { deleteAll } = require('./thought-controllers');
 
@@ -48,8 +49,10 @@ const userController = {
     },
 
     // delete one user
-    deleteOne({ params }, res) {
-        User.findOneAndDelete({ _id: params.id })
+    async deleteOne({ params }, res) {
+        const user = await User.findOne({ _id: params.id})
+        
+         user.deleteOne()
         .then(response => {
             if (!response) {
                 res.status(404).json({ message: 'No user found with this id '});
@@ -77,9 +80,10 @@ const userController = {
     },
 
     // delete all users
-    deleteAll(req, res ) {
-        User.deleteMany()
-        .then(response => res.json({ message: (`${response.deletedCount} user(s) deleted`)}))
+    async deleteAll(req, res ) {
+        const users = await User.find({});
+        User.deleteMany({users})
+        .then(response => res.json({message: `${response.deletedCount} user(s) deleted`}))
         .catch(err => res.json(err))
     },
 

@@ -1,4 +1,6 @@
 const {Schema, model, SchemaTypes } = require('mongoose');
+const Thought = require('./Thoughts');
+
 
 const userSchema = new Schema(
     {
@@ -49,11 +51,22 @@ userSchema.virtual('friendCount').get(function() {
 
 // get total count of thoughts and reactions on retrieval
 userSchema.virtual('thoughtCount').get(function(){
-    if (this.thoughts) {    
-    return this.thoughts.reduce((total, t) => total + t.reactions.length +1, 0);
+    if(!this.thoughts) {
+        return 0;
     }
-    return 0;
+    return this.thoughts.length;
 });
+
+// middleware to remove thoughts if user is deleted
+userSchema.pre('deleteOne', {document: true }, function(next) {
+    Thought.deleteMany({ _id: {$in: this.thoughts} } )
+    .then((next()))
+});
+
+userSchema.pre('deleteMany', function(next) {
+    Thought.deleteMany({}).then(next());
+});
+
 
 const User = model('User', userSchema);
 
