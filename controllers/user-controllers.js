@@ -9,7 +9,7 @@ const userController = {
         User.find({})
         .populate({
             path: 'thoughts',
-            select: '-__v'
+            select: '-reactions._id -reactions.id -__v'
         })
         .populate({
             path: 'friends',
@@ -35,7 +35,7 @@ const userController = {
         User.findById( { _id: params.id })
         .populate({
             path: 'thoughts',
-            select: ('-__v')
+            select: '-reactions._id -reactions.id -__v'
         })
         .select('-__v')
         .then(dbUserData => {

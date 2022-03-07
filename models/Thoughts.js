@@ -1,10 +1,10 @@
-const { text } = require('express');
-const { Schema, model, Types, SchemaTypes } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
+const dateFormat = require('../utils/dateFormat');
 
 const reactionSchema = new Schema( 
     {
         reactionId: {
-            type: SchemaTypes.ObjectId,
+            type: Schema.Types.ObjectId,
             default: () => new Types.ObjectId()
        },
         reactionText: {
@@ -12,6 +12,16 @@ const reactionSchema = new Schema(
             required: true,
             trim: true,
             maxlength: 280
+        },
+        createdAt: {
+            type: Date,
+            default: Date.now,
+            get: createdAtVal => dateFormat(createdAtVal)
+        }
+    },
+    {
+        toJSON: {
+            getters: true
         }
     }
 )
@@ -26,9 +36,16 @@ const thoughtSchema = new Schema(
         cratedAt:{
             type: Date,
             default: Date.now,
-            trim: true
+            trim: true,
+            get: (createdAtVal) => dateFormat(createdAtVal)
         },
         reactions: [reactionSchema]
+    },
+    {
+        toJSON: {
+            getters: true
+        },
+        id:false
     }
 );
 
