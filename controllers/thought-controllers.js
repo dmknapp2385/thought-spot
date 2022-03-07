@@ -3,7 +3,7 @@ const { Thought, User } = require('../models');
 const thoughtController = {
     // get all thoughts
     getThoughts(req,res) {
-        Thought.find().select('-reactions._id -reactions.id -__v')
+        Thought.find().select('-reactions._id  -__v')
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => res.json(err))
 
@@ -22,7 +22,7 @@ const thoughtController = {
     },
       // get one thought by id
       getOneThought({ params }, res) {
-        Thought.findById({ _id: params.id })
+        Thought.findById({ _id: params.id }).select('-__v -reactions._id')
         .then(dbThoughtData => res.json(dbThoughtData))
         .catch(err => res.json(err))
     },
